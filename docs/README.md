@@ -25,19 +25,72 @@ flowchart TD
 ```
 
 ## 4. Tool Map
-| Tool name | Backend source | Purpose |
-|---|---|---|
-| `customer_create_tool` | PostgreSQL function `customer_create` | Create new customer profile |
-| `customer_profile_tool` | PostgreSQL function `get_customer_profile_by_ani` | Pull profile by ANI |
-| `pull_registered_profile_tool` | PostgreSQL function `get_customer_profile_by_ani` | Pull profile with user-provided phone |
-| `update_email_tool` | PostgreSQL function `update_customer_email_by_ani` | Update email |
-| `update_address_tool` | PostgreSQL function `update_customer_address_by_ani` | Update address |
-| `change_ani_tool` | PostgreSQL function `change_customer_ani` | Change ANI |
-| `create_claim_tool` | PostgreSQL function `create_claim_by_ani` | Submit new claim |
-| `callback_tool` | PostgreSQL function `callback_create` | Create callback ticket |
-| `hospital_tool` | `data/excel/hospitals.xlsx` | Nearby hospital lookup |
-| `garage_tool` | `data/excel/garages.xlsx` | Nearby garage lookup |
-| `rag_kb_tool` | PDF FAISS index (`data/pdfs`, `data/vector`) | Policy/general FAQ answers |
+<table>
+  <thead>
+    <tr>
+      <th>Tool name</th>
+      <th>Backend source</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>customer_create_tool</code></td>
+      <td>PostgreSQL function <code>customer_create</code></td>
+      <td>Create new customer profile</td>
+    </tr>
+    <tr>
+      <td><code>customer_profile_tool</code></td>
+      <td>PostgreSQL function <code>get_customer_profile_by_ani</code></td>
+      <td>Pull profile by ANI</td>
+    </tr>
+    <tr>
+      <td><code>pull_registered_profile_tool</code></td>
+      <td>PostgreSQL function <code>get_customer_profile_by_ani</code></td>
+      <td>Pull profile with user-provided phone</td>
+    </tr>
+    <tr>
+      <td><code>update_email_tool</code></td>
+      <td>PostgreSQL function <code>update_customer_email_by_ani</code></td>
+      <td>Update email</td>
+    </tr>
+    <tr>
+      <td><code>update_address_tool</code></td>
+      <td>PostgreSQL function <code>update_customer_address_by_ani</code></td>
+      <td>Update address</td>
+    </tr>
+    <tr>
+      <td><code>change_ani_tool</code></td>
+      <td>PostgreSQL function <code>change_customer_ani</code></td>
+      <td>Change ANI</td>
+    </tr>
+    <tr>
+      <td><code>create_claim_tool</code></td>
+      <td>PostgreSQL function <code>create_claim_by_ani</code></td>
+      <td>Submit new claim</td>
+    </tr>
+    <tr>
+      <td><code>callback_tool</code></td>
+      <td>PostgreSQL function <code>callback_create</code></td>
+      <td>Create callback ticket</td>
+    </tr>
+    <tr>
+      <td><code>hospital_tool</code></td>
+      <td><code>data/excel/hospitals.xlsx</code></td>
+      <td>Nearby hospital lookup</td>
+    </tr>
+    <tr>
+      <td><code>garage_tool</code></td>
+      <td><code>data/excel/garages.xlsx</code></td>
+      <td>Nearby garage lookup</td>
+    </tr>
+    <tr>
+      <td><code>rag_kb_tool</code></td>
+      <td>PDF FAISS index (<code>data/pdfs</code>, <code>data/vector</code>)</td>
+      <td>Policy/general FAQ answers</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 5. Core Customer Flows
 
