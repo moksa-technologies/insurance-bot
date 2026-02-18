@@ -1,0 +1,13 @@
+__pycache__/
+.pytest_cache/
+.venv/
+.env
+*.pyc
+*.pyo
+*.pyd
+*.log
+logs/
+*.tmp
+*.bak
+data/vector/*
+!data/vector/.gitkeep
