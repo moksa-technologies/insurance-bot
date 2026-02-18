@@ -111,6 +111,19 @@ flowchart TD
     K -- No --> L[Request correct details / stop sensitive actions]
 ```
 
+#### Example Conversation
+```text
+Customer: Hi, I need my policy details.
+Priya: Hello Ramesh, Priya from MokSa Insurance here. Let me quickly check your profile.
+[Tool call] customer_profile_tool {"ani":"9000000001"}
+Priya: Thanks for waiting, Ramesh. I found your profile. Your active policy is comprehensive and valid till 2027-03-31.
+Customer: My ANI changed, I cannot access with old number.
+Priya: I can help. Please share your registered phone and date of birth for verification.
+[Tool call] pull_registered_profile_tool {"phone_number":"9000000009"}
+Customer: DOB is 1994-10-14.
+Priya: Verified. I can now continue with profile-linked requests.
+```
+
 ### 5.2 New Customer Onboarding + Callback
 ```mermaid
 flowchart TD
@@ -119,6 +132,21 @@ flowchart TD
     C --> D[Call customer_create_tool]
     D --> E[Call callback_tool]
     E --> F[Confirm callback in 30 minutes]
+```
+
+#### Example Conversation
+```text
+Customer: I am new. I want to buy insurance.
+Priya: Welcome. Priya from MokSa Insurance here. I will register your details and arrange a callback.
+Priya: Please share your name.
+Customer: Anjali Verma.
+Priya: Please share your email.
+Customer: anjali.v@example.com
+Priya: Please share your address and date of birth.
+Customer: Banjara Hills, Hyderabad. DOB 1997-05-20.
+[Tool call] customer_create_tool {"cust_id":12345,"ani":"9000012345","name":"Anjali Verma","email":"anjali.v@example.com","address":"Banjara Hills, Hyderabad","dob":"1997-05-20"}
+[Tool call] callback_tool {"cust_id":12345,"ani":"9000012345","phone":"9000012345","reason":"new policy purchase","preferred_from":"9am","preferred_to":"6pm","scheduled_at":"current date/time in Asia/Kolkata time","status":"active","priority":3,"assigned_to":"all"}
+Priya: Done. Your callback is registered. Our team will call you within 30 minutes.
 ```
 
 ### 5.3 Accident Assistance Flow
@@ -140,6 +168,19 @@ flowchart TD
     J -- No --> N[Proceed with next question]
 ```
 
+#### Example Conversation
+```text
+Customer: I had an accident. I am not safe and need help now.
+Priya: I am sorry this happened. Priya from MokSa Insurance here. Please share your area first.
+Customer: Kukatpally.
+Priya: Please share city.
+Customer: Hyderabad.
+Priya: Please share pincode.
+Customer: 500072.
+[Tool call] hospital_tool {"area":"Kukatpally","city":"Hyderabad","pincode":"500072","limit":3}
+Priya: I found nearby hospitals and shared their contact details. Do you also want help with police or ambulance coordination?
+```
+
 ### 5.4 Claim Assistance Flow
 ```mermaid
 flowchart TD
@@ -149,6 +190,21 @@ flowchart TD
     D --> E[vehicle_no, date, time, place, damage, FIR, description]
     E --> F[Use create_claim_tool]
     F --> G[Confirm submission and next steps]
+```
+
+#### Example Conversation
+```text
+Customer: I want to file a new claim for yesterday's accident.
+Priya: Sure. Priya from MokSa Insurance here. I will capture the required details and submit your claim.
+[Tool call] customer_profile_tool {"ani":"9000000001"}
+Priya: I have your vehicle TS09AB1234. Please confirm incident date and time.
+Customer: 2026-02-17, around 08:30 PM.
+Priya: Please share location and damage description.
+Customer: Near Hitech City signal, front bumper cracked.
+Priya: Was FIR filed?
+Customer: Yes, FIR1234.
+[Tool call] create_claim_tool {"ani":"9000000001","vehicle_no":"TS09AB1234","incident_date":"2026-02-17","incident_time":"20:30","incident_place":"Hitech City signal","damage_type":"accident","damage_description":"front bumper cracked","fir_filed":true,"fir_no":"FIR1234"}
+Priya: Claim submitted successfully. I have shared your claim reference and next processing steps.
 ```
 
 ### 5.5 RSA Flow
@@ -165,6 +221,21 @@ flowchart TD
     H -- No --> I[Close politely]
 ```
 
+#### Example Conversation
+```text
+Customer: My car broke down. Need roadside help.
+Priya: Priya from MokSa Insurance here. I will check your RSA eligibility first.
+[Tool call] customer_profile_tool {"ani":"9000000001"}
+Priya: Your policy has RSA coverage. Please share city.
+Customer: Hyderabad.
+Priya: Please share area.
+Customer: Madhapur.
+Priya: Please share pincode.
+Customer: 500081.
+[Tool call] garage_tool {"city":"Hyderabad","area":"Madhapur","pincode":"500081","limit":3}
+Priya: I found nearby garages and can arrange assistance now. Estimated wait time is 35 to 45 minutes. Shall I confirm?
+```
+
 ### 5.6 Policy and General FAQ Flow (RAG)
 ```mermaid
 flowchart TD
@@ -174,6 +245,15 @@ flowchart TD
     D --> E{Relevant chunks found?}
     E -- Yes --> F[Answer with grounded policy details]
     E -- No --> G[Return graceful fallback / ask clarification]
+```
+
+#### Example Conversation
+```text
+Customer: Is engine protection covered in my policy?
+Priya: Priya from MokSa Insurance here. Let me check policy terms.
+[Tool call] customer_profile_tool {"ani":"9000000001"}
+[Tool call] rag_kb_tool {"query_en":"engine protection coverage terms and exclusions","top_k":4}
+Priya: Engine protection is covered for internal damage caused by water ingression, subject to policy terms. I can also explain claim documentation required.
 ```
 
 ### 5.7 Profile Update Flow
@@ -188,6 +268,14 @@ flowchart TD
     E --> F
 ```
 
+#### Example Conversation
+```text
+Customer: Please update my email to ramesh.new@example.com.
+Priya: Priya from MokSa Insurance here. I will update your registered email now.
+[Tool call] update_email_tool {"ani":"9000000001","new_email":"ramesh.new@example.com"}
+Priya: Done. Your email has been updated successfully.
+```
+
 ### 5.8 Callback Flow
 ```mermaid
 flowchart TD
@@ -195,6 +283,15 @@ flowchart TD
     B --> C[Parse preferred times and schedule]
     C --> D[Use callback_tool]
     D --> E[Provide callback confirmation]
+```
+
+#### Example Conversation
+```text
+Customer: Call me tomorrow morning for policy renewal.
+Priya: Priya from MokSa Insurance here. I can schedule that. Preferred time window?
+Customer: 9am to 11am.
+[Tool call] callback_tool {"cust_id":10001,"ani":"9000000001","phone":"9000000001","reason":"policy renewal discussion","preferred_from":"9am","preferred_to":"11am","scheduled_at":"current date/time in Asia/Kolkata time","status":"active","priority":2,"assigned_to":"all"}
+Priya: Callback is registered. Our team will contact you in your preferred window.
 ```
 
 ## 6. Twisted/Complex Question Handling
@@ -213,6 +310,20 @@ flowchart TD
     H --> I{Additional action required?}
     I -- Yes --> J[Next loop, ask/execute next step]
     I -- No --> K[Return final response]
+```
+
+#### Example Conversation (Twisted Query)
+```text
+Customer: I had an accident, update my email, and also tell claim status.
+Priya: Priya from MokSa Insurance here. First, are you safe right now?
+Customer: Yes.
+Priya: Do you need medical or roadside assistance immediately?
+Customer: No, just claim and email update.
+[Tool call] customer_profile_tool {"ani":"9000000001"}
+Priya: I found your profile and active claim record. Please share the new email to update first.
+Customer: ramesh.claims@example.com
+[Tool call] update_email_tool {"ani":"9000000001","new_email":"ramesh.claims@example.com"}
+Priya: Email updated. Your latest claim is under assessment and currently in progress.
 ```
 
 ### 6.2 What It Handles Well
@@ -288,4 +399,4 @@ Escalate to human agent if:
 
 ## 10. Document Versions
 - Markdown SOP: `docs/README.md`
-- Word SOP: `docs/Customer_SOP.docx`
+- Word SOP: `docs/Customer_SOP_updated.docx`

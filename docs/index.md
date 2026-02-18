@@ -10,4 +10,4 @@ title: Customer SOP
 {{ sop_markdown | markdownify }}
 
 ## Downloads
-- [Customer SOP (Word)]({{ '/Customer_SOP.docx' | relative_url }})
+- [Customer SOP (Word)]({{ '/Customer_SOP_updated.docx' | relative_url }})
