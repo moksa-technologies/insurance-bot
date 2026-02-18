@@ -9,5 +9,6 @@ __pycache__/
 logs/
 *.tmp
 *.bak
+~$*.docx
 data/vector/*
 !data/vector/.gitkeep
