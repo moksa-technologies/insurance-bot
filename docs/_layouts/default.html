@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
+  <meta name="description" content="{{ site.description }}">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+      <p class="site-description">{{ site.description }}</p>
+    </div>
+  </header>
+
+  <main class="content">
+    {{ content }}
+  </main>
+
+  <script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+
+    // Convert markdown mermaid code fences to renderable mermaid blocks.
+    for (const node of document.querySelectorAll("pre code.language-mermaid")) {
+      const pre = node.parentElement;
+      if (!pre) continue;
+      const container = document.createElement("div");
+      container.className = "mermaid";
+      container.textContent = node.textContent || "";
+      pre.replaceWith(container);
+    }
+
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: prefersDark ? "dark" : "default",
+      securityLevel: "loose"
+    });
+  </script>
+</body>
+</html>

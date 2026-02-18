@@ -1,0 +1,9 @@
+title: Insurance Bot Docs
+description: Customer SOP and flow documentation
+markdown: kramdown
+kramdown:
+  input: GFM
+baseurl: ""
+url: ""
+exclude:
+  - Customer_SOP.docx

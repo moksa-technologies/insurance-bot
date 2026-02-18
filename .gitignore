@@ -10,5 +10,9 @@ logs/
 *.tmp
 *.bak
 ~$*.docx
+.jekyll-cache/
+.jekyll-metadata
+.sass-cache/
+_site/
 data/vector/*
 !data/vector/.gitkeep
